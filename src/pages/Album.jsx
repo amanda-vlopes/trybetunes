@@ -27,7 +27,6 @@ export default class Album extends Component {
 
   render() {
     const { musicas, artistName, imagemURL, albumName } = this.state;
-    console.log(musicas);
     return (
       <>
         <Header />
@@ -42,7 +41,7 @@ export default class Album extends Component {
           musicas.map((musica, index) => (
             <MusicCard
               key={ index }
-              { ...musica }
+              musica={ musica }
             />
           ))
         }
