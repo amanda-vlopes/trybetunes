@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Carregando from '../components/Carregando';
 import Header from '../components/Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
-import Carregando from './Carregando';
 
 export default class Search extends Component {
   state = {
