@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 import Carregando from './Carregando';
@@ -6,10 +7,12 @@ import Carregando from './Carregando';
 export default class Search extends Component {
   state = {
     artistInput: '',
+    artistaProcurado: '',
     buttonDisabled: true,
     loading: false,
     albuns: [],
     resultado: false,
+    search: false,
   };
 
   onInputChange = ({ target }) => {
@@ -25,16 +28,20 @@ export default class Search extends Component {
     this.setState({ loading: true });
     const { artistInput } = this.state;
     const albuns = await searchAlbumsAPI(artistInput);
-    this.setState({
+    this.setState((prevState) => ({
+      artistInput: '',
+      artistaProcurado: prevState.artistInput,
       loading: false,
       albuns,
       resultado: true,
-    });
+      search: true,
+    }));
   };
 
   render() {
-    const { artistInput, buttonDisabled, loading, resultado } = this.state;
-    const resultArtist = <p>{`Resultado de álbuns de:${artistInput}`}</p>;
+    const { artistInput, buttonDisabled, loading,
+      resultado, albuns, artistaProcurado, search } = this.state;
+    const resultArtist = <p>{`Resultado de álbuns de: ${artistaProcurado}`}</p>;
     return (
       <>
         <Header />
@@ -61,6 +68,29 @@ export default class Search extends Component {
                 </button>
               </form>
               {resultado && resultArtist}
+              {albuns.length > 0
+                ? (
+                  <div>
+                    { albuns
+                      .map(
+                        ({ artistName, artworkUrl100, collectionName, collectionId }) => (
+                          <div key={ collectionId }>
+                            <Link
+                              to={ `/album/${collectionId}` }
+                              data-testid={ `link-to-album-${collectionId}` }
+                            >
+                              <img src={ artworkUrl100 } alt={ collectionName } />
+                            </Link>
+                            <p>{ collectionName }</p>
+                            <p>{ artistName }</p>
+                          </div>
+                        ),
+                      )}
+                  </div>
+                )
+                : (
+                  search && <p>Nenhum álbum foi encontrado</p>
+                )}
             </div>
           )}
       </>
