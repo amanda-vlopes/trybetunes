@@ -32,6 +32,7 @@ export default class Search extends Component {
       artistInput: '',
       artistaProcurado: prevState.artistInput,
       loading: false,
+      buttonDisabled: true,
       albuns,
       resultado: true,
       search: true,
@@ -49,7 +50,7 @@ export default class Search extends Component {
           ? (<Carregando />)
           : (
             <div data-testid="page-search">
-              <form action="">
+              <div>
                 <input
                   type="text"
                   name="artistInput"
@@ -62,11 +63,10 @@ export default class Search extends Component {
                   data-testid="search-artist-button"
                   disabled={ buttonDisabled }
                   onClick={ this.handleSearchArtist }
-                  type="button"
                 >
                   Pesquisar
                 </button>
-              </form>
+              </div>
               {resultado && resultArtist}
               {albuns.length > 0
                 ? (
