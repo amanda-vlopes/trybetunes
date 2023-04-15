@@ -26,8 +26,8 @@ export default class Album extends Component {
       artistName: musicas[0].artistName,
       imagemURL: musicas[0].artworkUrl100,
       albumName: musicas[0].collectionName,
+      loading: true,
     });
-    this.setState({ loading: true });
     const favoriteSongs = await getFavoriteSongs();
     this.setState({
       favoriteSongs,
@@ -57,7 +57,9 @@ export default class Album extends Component {
                   <MusicCard
                     key={ index }
                     musica={ musica }
-                    favoriteSongs={ favoriteSongs }
+                    isFavorite={
+                      favoriteSongs.some(({ trackId }) => trackId === musica.trackId)
+                    }
                   />
                 ))
               }
