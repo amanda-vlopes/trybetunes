@@ -1,12 +1,12 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Carregando from '../components/Carregando';
 import Header from '../components/Header';
-import { getUser } from '../services/userAPI';
+import { getUser, updateUser } from '../services/userAPI';
 
 export default class ProfileEdit extends Component {
   state = {
     loading: true,
-    // user: {},
     userName: '',
     userEmail: '',
     userImage: '',
@@ -18,7 +18,6 @@ export default class ProfileEdit extends Component {
     const { name, email, image, description } = user;
     this.setState({
       loading: false,
-      // user,
       userName: name,
       userEmail: email,
       userImage: image,
@@ -43,9 +42,22 @@ export default class ProfileEdit extends Component {
     return isNameValid && isEmailValid && isImageValid && isDescriptionValid;
   };
 
+  handleUpdateUser = async () => {
+    const { userName, userEmail, userImage, userDescription } = this.state;
+    const { history } = this.props;
+    const userUpdate = {
+      name: userName,
+      email: userEmail,
+      image: userImage,
+      description: userDescription,
+    };
+    history.push('/profile');
+    await updateUser(userUpdate);
+    this.setState({ loading: false });
+  };
+
   render() {
     const { loading, userName, userEmail, userImage, userDescription } = this.state;
-    // const { name, email, image, description } = user;
     return (
       <>
         <Header />
@@ -105,7 +117,7 @@ export default class ProfileEdit extends Component {
                 <button
                   disabled={ !this.isButtonDisabled() }
                   data-testid="edit-button-save"
-                  onClick={ this.updateInfo }
+                  onClick={ this.handleUpdateUser }
                 >
                   Salvar
                 </button>
@@ -116,3 +128,9 @@ export default class ProfileEdit extends Component {
     );
   }
 }
+
+ProfileEdit.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};

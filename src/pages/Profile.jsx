@@ -30,13 +30,13 @@ export default class Profile extends Component {
             : (
               <div>
                 <img src={ image } alt={ name } data-testid="profile-image" />
-                <h2>Nome:</h2>
-                <p>{ name }</p>
-                <h2>Email:</h2>
-                <p>{ email }</p>
-                <h2>Descrição:</h2>
-                <p>{ description }</p>
                 <Link to="/profile/edit">Editar perfil</Link>
+                <h2>Nome</h2>
+                <p>{ name }</p>
+                <h2>Email</h2>
+                <p>{ email }</p>
+                <h2>Descrição</h2>
+                <p>{ description }</p>
               </div>
             )}
         </div>
