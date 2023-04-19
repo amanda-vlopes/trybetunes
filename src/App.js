@@ -1,18 +1,18 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import './App.css';
+import Album from './pages/Album';
 import Favorites from './pages/Favorites';
 import Login from './pages/Login';
-import Profile from './pages/Profile';
-import Search from './pages/Search';
-import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
-import Album from './pages/Album';
+import Profile from './pages/Profile';
+import ProfileEdit from './pages/ProfileEdit';
+import Search from './pages/Search';
 
 class App extends React.Component {
   render() {
     return (
       <main>
-        <p>TrybeTunes</p>
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route exact path="/search" component={ Search } />

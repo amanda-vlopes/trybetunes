@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Carregando from '../components/Carregando';
 import { createUser } from '../services/userAPI';
+import icone from '../imagens/icone.png';
 
 export default class Login extends Component {
   state = {
@@ -30,17 +31,21 @@ export default class Login extends Component {
   render() {
     const { nameLogin, buttonDisabled, loading } = this.state;
     return (
-      <div data-testid="page-login">
+      <div data-testid="page-login" className="login__page">
         {loading
           ? (<Carregando />)
           : (
-            <form action="">
+            <div className="login__div">
+              <div className="login__title">
+                <img src={ icone } alt="icone" />
+                <h1>onMusic</h1>
+              </div>
               <input
                 type="text"
                 name="nameLogin"
                 id="nameLogin"
                 data-testid="login-name-input"
-                placeholder="Digite o seu nome"
+                placeholder="What's your name?"
                 onChange={ this.onInputChange }
                 value={ nameLogin }
               />
@@ -49,11 +54,10 @@ export default class Login extends Component {
                 disabled={ buttonDisabled }
                 onClick={ this.handleLogin }
               >
-                Entrar
+                Login
               </button>
-            </form>
+            </div>
           )}
-
       </div>
     );
   }
