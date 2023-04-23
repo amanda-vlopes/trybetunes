@@ -11,7 +11,6 @@ export default class Search extends Component {
     buttonDisabled: true,
     loading: false,
     albuns: [],
-    resultado: false,
     search: false,
   };
 
@@ -34,14 +33,13 @@ export default class Search extends Component {
       loading: false,
       buttonDisabled: true,
       albuns,
-      resultado: true,
       search: true,
     }));
   };
 
   render() {
     const { artistInput, buttonDisabled, loading,
-      resultado, albuns, artistaProcurado, search } = this.state;
+      albuns, artistaProcurado, search } = this.state;
     const resultArtist = <p>{`Resultado de álbuns de: ${artistaProcurado}`}</p>;
     return (
       <div className="search__page">
@@ -67,30 +65,33 @@ export default class Search extends Component {
                   Pesquisar
                 </button>
               </div>
-              {resultado && resultArtist}
-              {albuns.length > 0
-                ? (
-                  <div>
-                    { albuns
-                      .map(
-                        ({ artistName, artworkUrl100, collectionName, collectionId }) => (
-                          <div key={ collectionId }>
-                            <Link
-                              to={ `/album/${collectionId}` }
-                              data-testid={ `link-to-album-${collectionId}` }
-                            >
-                              <img src={ artworkUrl100 } alt={ collectionName } />
-                            </Link>
-                            <p>{ collectionName }</p>
-                            <p>{ artistName }</p>
+              <h3>
+                {albuns.length > 0
+                  ? (resultArtist)
+                  : (search && <p>Nenhum álbum foi encontrado</p>)}
+              </h3>
+              <div className="albuns_search">
+                { albuns
+                  .map(
+                    ({ artistName, artworkUrl100, collectionName, collectionId }) => (
+                      <div key={ collectionId } className="album_div">
+                        <Link
+                          to={ `/album/${collectionId}` }
+                          data-testid={ `link-to-album-${collectionId}` }
+                        >
+                          <div className="album_image">
+                            <img src={ artworkUrl100 } alt={ collectionName } />
+                            <span className="material-symbols-outlined icon_play">
+                              play_circle
+                            </span>
                           </div>
-                        ),
-                      )}
-                  </div>
-                )
-                : (
-                  search && <p>Nenhum álbum foi encontrado</p>
-                )}
+                          <p className="album_name">{ collectionName }</p>
+                          <p className="artist_name">{ artistName }</p>
+                        </Link>
+                      </div>
+                    ),
+                  )}
+              </div>
             </div>
           )}
       </div>
