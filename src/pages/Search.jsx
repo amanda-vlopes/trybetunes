@@ -44,12 +44,12 @@ export default class Search extends Component {
       resultado, albuns, artistaProcurado, search } = this.state;
     const resultArtist = <p>{`Resultado de álbuns de: ${artistaProcurado}`}</p>;
     return (
-      <>
+      <div className="search__page">
         <Header />
         {loading
           ? (<Carregando />)
           : (
-            <div data-testid="page-search">
+            <div data-testid="page-search" className="search__div">
               <div>
                 <input
                   type="text"
@@ -93,7 +93,7 @@ export default class Search extends Component {
                 )}
             </div>
           )}
-      </>
+      </div>
     );
   }
 }

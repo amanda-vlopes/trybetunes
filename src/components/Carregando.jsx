@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 export default class Carregando extends Component {
   render() {
     return (
-      <p>Carregando...</p>
+      <BeatLoader color="#4cbf5f" />
     );
   }
 }

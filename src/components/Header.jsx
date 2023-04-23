@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import icone from '../imagens/icone.png';
 import { getUser } from '../services/userAPI';
 import Carregando from './Carregando';
 
@@ -20,17 +21,33 @@ export default class Header extends Component {
   render() {
     const { loading, nameUser } = this.state;
     return (
-      <header data-testid="header-component">
+      <header data-testid="header-component" className="header_component">
+        <div className="login__title header__title">
+          <img src={ icone } alt="icone" />
+          <h2>onMusic</h2>
+        </div>
+        <Link to="/search" data-testid="link-to-search" className="search-header">
+          <span className="material-symbols-outlined icon-header">search</span>
+          <span>Search</span>
+        </Link>
+        <Link to="/favorites" data-testid="link-to-favorites" className="search-header">
+          <span className="material-symbols-outlined icon-header">favorite</span>
+          <span>Favorites</span>
+        </Link>
+        <Link to="/profile" data-testid="link-to-profile" className="search-header">
+          <span className="material-symbols-outlined icon-header">person</span>
+          <span>Profile</span>
+        </Link>
         {loading
           ? (<Carregando />)
           : (
-            <p data-testid="header-user-name">{ nameUser }</p>
+            <div className="user_div">
+              <span className="material-symbols-outlined icon-header">
+                account_circle
+              </span>
+              <p data-testid="header-user-name">{ nameUser }</p>
+            </div>
           )}
-        <ul>
-          <li><Link to="/search" data-testid="link-to-search">Search</Link></li>
-          <li><Link to="/favorites" data-testid="link-to-favorites">Favorites</Link></li>
-          <li><Link to="/profile" data-testid="link-to-profile">Profile</Link></li>
-        </ul>
       </header>
     );
   }
