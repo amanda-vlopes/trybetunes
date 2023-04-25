@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Carregando from '../components/Carregando';
 import Header from '../components/Header';
@@ -24,10 +25,12 @@ export default class Favorites extends Component {
   };
 
   render() {
+    const { match } = this.props;
+    const { url } = match;
     const { favoriteSongs, loading } = this.state;
     return (
       <>
-        <Header />
+        <Header url={ url } />
         <div data-testid="page-favorites">
           {loading
             ? (<Carregando />)
@@ -46,3 +49,9 @@ export default class Favorites extends Component {
     );
   }
 }
+
+Favorites.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string,
+  }).isRequired,
+};

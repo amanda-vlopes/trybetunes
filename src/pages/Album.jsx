@@ -12,8 +12,10 @@ export default class Album extends Component {
     artistName: '',
     imagemURL: '',
     albumName: '',
+    albumYear: '',
+    numberSongs: '',
     favoriteSongs: [],
-    loading: false,
+    loading: true,
   };
 
   async componentDidMount() {
@@ -21,50 +23,69 @@ export default class Album extends Component {
     const { params: { id } } = match;
     let musicas = await getMusics(id);
     musicas = musicas.filter((musica) => musica.trackName);
+    const favoriteSongs = await getFavoriteSongs();
+    const quatro = 4;
+    const albumYear = musicas[0].releaseDate.slice(0, quatro);
     this.setState({
       musicas,
       artistName: musicas[0].artistName,
       imagemURL: musicas[0].artworkUrl100,
       albumName: musicas[0].collectionName,
-      loading: true,
-    });
-    const favoriteSongs = await getFavoriteSongs();
-    this.setState({
+      albumYear,
+      numberSongs: musicas[0].trackCount,
       favoriteSongs,
       loading: false,
     });
   }
 
   render() {
+    const { match } = this.props;
+    const { url } = match;
     const { musicas, artistName, imagemURL,
-      albumName, favoriteSongs, loading } = this.state;
+      albumName, favoriteSongs, loading, albumYear, numberSongs } = this.state;
     return (
       <>
-        <Header />
-        {loading
-          ? (<Carregando />)
-          : (
-            <div>
-              <div data-testid="page-album">
-                <div>
-                  <img src={ imagemURL } alt={ artistName } />
-                  <h2 data-testid="album-name">{ albumName }</h2>
-                  <h3 data-testid="artist-name">{ artistName }</h3>
+        <Header url={ url } />
+        <div className="page_album">
+          {loading
+            ? (<Carregando />)
+            : (
+              <div className="album_container">
+                <div data-testid="page-album" className="album_selected">
+                  <div className="album_selected_info">
+                    <img src={ imagemURL } alt={ artistName } />
+                    <div>
+                      <h2
+                        data-testid="album-name"
+                        className="album_selected_name"
+                      >
+                        { albumName }
+                      </h2>
+                      <h3
+                        data-testid="artist-name"
+                        className="album_selected_artist"
+                      >
+                        { `${artistName} - ${albumYear} - ${numberSongs} songs` }
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+                <div className="musics_div">
+                  {
+                    musicas.map((musica, index) => (
+                      <MusicCard
+                        key={ index }
+                        musica={ musica }
+                        isFavorite={
+                          favoriteSongs.some(({ trackId }) => trackId === musica.trackId)
+                        }
+                      />
+                    ))
+                  }
                 </div>
               </div>
-              {
-                musicas.map((musica, index) => (
-                  <MusicCard
-                    key={ index }
-                    musica={ musica }
-                    isFavorite={
-                      favoriteSongs.some(({ trackId }) => trackId === musica.trackId)
-                    }
-                  />
-                ))
-              }
-            </div>
-          )}
+            )}
+        </div>
       </>
     );
   }
@@ -75,5 +96,6 @@ Album.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+    url: PropTypes.string,
   }).isRequired,
 };

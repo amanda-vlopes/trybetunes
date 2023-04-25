@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Carregando from '../components/Carregando';
@@ -19,11 +20,13 @@ export default class Profile extends Component {
   }
 
   render() {
+    const { match } = this.props;
+    const { url } = match;
     const { user, loading } = this.state;
     const { name, email, image, description } = user;
     return (
       <>
-        <Header />
+        <Header url={ url } />
         <div data-testid="page-profile">
           {loading
             ? (<Carregando />)
@@ -44,3 +47,9 @@ export default class Profile extends Component {
     );
   }
 }
+
+Profile.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string,
+  }).isRequired,
+};

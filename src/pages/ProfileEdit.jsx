@@ -57,10 +57,12 @@ export default class ProfileEdit extends Component {
   };
 
   render() {
+    const { match } = this.props;
+    const { url } = match;
     const { loading, userName, userEmail, userImage, userDescription } = this.state;
     return (
       <>
-        <Header />
+        <Header url={ url } />
         <div data-testid="page-profile-edit">
           {loading
             ? (<Carregando />)
@@ -132,5 +134,8 @@ export default class ProfileEdit extends Component {
 ProfileEdit.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
+  }).isRequired,
+  match: PropTypes.shape({
+    url: PropTypes.string,
   }).isRequired,
 };
