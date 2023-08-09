@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import { addSong, removeSong } from '../services/favoriteSongsAPI';
 import Carregando from './Carregando';
@@ -40,19 +39,23 @@ export default class MusicCard extends Component {
         <div className="music_card">
           <div className="music_audio">
             <h3>{ trackName }</h3>
-            <AudioPlayer
+            {/* <AudioPlayer
               src={ previewUrl }
               volume={ 0.02 }
               showJumpControls={ false }
-            />
-            {/* <audio src={ previewUrl } controls>
+              showFilledProgress={ false }
+              customAdditionalControls={ [] }
+              style={ { width: '600px' } }
+              layout="horizontal-reverse"
+            /> */}
+            <audio src={ previewUrl } controls>
               <track kind="captions" />
               O seu navegador não suporta o elemento
               {' '}
               {' '}
               <code>audio</code>
               .
-            </audio> */}
+            </audio>
           </div>
           {loading
             ? (<Carregando />)
